@@ -1,70 +1,164 @@
-# Getting Started with Create React App
+POS System (Public)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A Point of Sale (POS) web application built with React. Supports cashier and manager roles, demo data, and can be run via Docker or locally with Node.js.
 
-## Available Scripts
+This repository contains a dockerized frontend version ready to run on Linux, macOS, and Windows.
 
-In the project directory, you can run:
+Features
 
-### `npm start`
+Secure login for cashier, manager, and admin (demo credentials included).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Add items to cart, compute subtotal, tax, and total.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Print sales receipt.
 
-### `npm test`
+Manager dashboard (product management coming soon).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Fully dockerized for consistent deployment.
 
-### `npm run build`
+Demo Users
+Role	Username	Password
+Cashier	cashier	cash123
+Manager	manager	mgr123
+Admin	admin	admin123
+Getting Started
+Option 1: Run via Docker (Recommended)
+Linux / macOS
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Clone the repository:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+git clone https://github.com/hayetmd/POS_Public.git
+cd POS_Public
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+Build Docker image:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+docker build -t pos-frontend:latest .
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Run Docker container:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+docker run -p 3000:80 pos-frontend:latest
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Open browser:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+http://localhost:3000
 
-### Code Splitting
+Windows (with Docker Desktop)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Install Docker Desktop (download
+).
 
-### Analyzing the Bundle Size
+For Windows 10 Home → WSL 2 backend is required
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+For Windows Pro/Enterprise → Hyper-V backend is supported
 
-### Making a Progressive Web App
+Clone the repository:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+git clone https://github.com/hayetmd/POS_Public.git
+cd POS_Public
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Build Docker image:
 
-### Deployment
+docker build -t pos-frontend:latest .
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
+Run Docker container:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+docker run -p 3000:80 pos-frontend:latest
+
+
+Open browser:
+
+http://localhost:3000
+
+One-Click Windows Execution
+
+You can create a .bat file to start the POS app with one click:
+
+Open Notepad and save as run-pos.bat in the POS_Public folder:
+
+@echo off
+cd /d C:\path\to\POS_Public
+
+REM Stop and remove any previous container
+for /f "tokens=*" %%i in ('docker ps -q -f "name=pos-frontend"') do docker stop %%i
+for /f "tokens=*" %%i in ('docker ps -a -q -f "name=pos-frontend"') do docker rm %%i
+
+docker build -t pos-frontend:latest .
+docker run -p 3000:80 --name pos-frontend pos-frontend:latest
+pause
+
+
+Double-click run-pos.bat to run the app.
+
+Open browser: http://localhost:3000
+
+✅ Benefits: No need to manually type Docker commands every time.
+
+Option 2: Run Locally with Node.js (Development Only)
+
+Install Node.js & npm (download
+).
+
+Clone the repository:
+
+git clone https://github.com/hayetmd/POS_Public.git
+cd POS_Public
+
+
+Install dependencies:
+
+npm install
+
+
+Start development server:
+
+npm start
+
+
+Open browser:
+
+http://localhost:3000
+
+
+⚠️ Notes:
+
+Use PowerShell or Terminal as Administrator on Windows if permission issues occur.
+
+This method is for development only; production is recommended via Docker.
+
+Folder Structure
+POS_Public/
+├── src/               # React source code
+├── public/            # Static files
+├── package.json       # Node dependencies
+├── package-lock.json
+├── Dockerfile         # Docker instructions
+├── .dockerignore      # Files to ignore for Docker build
+├── README.md          # Documentation
+
+Building & Updating Docker Image
+docker build -t pos-frontend:latest .
+docker run -p 3000:80 pos-frontend:latest
+
+
+To rebuild after changes, repeat the above commands.
+
+To stop container:
+
+docker ps           # list running containers
+docker stop <id>    # stop container
+docker rm <id>      # remove container
+
+Future Features
+
+Manager dashboard enhancements (add/edit/delete products).
+
+Reports and analytics.
+
+Multi-user concurrency support.
+
+Backend integration for authentication and persistent data.
